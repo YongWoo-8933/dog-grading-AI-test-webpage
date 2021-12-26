@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TensorFlow.js Tutorial</title>
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  
+  <!-- Import TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.12.0/dist/tf.min.js"></script>
+
+  <!-- Import tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.5.1/dist/tfjs-vis.umd.min.js"></script>
+  
+  <!-- Import tfjs-converter-->
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@3.12.0/dist/tf-converter.min.js"></script>
+  
+  <!-- Import the main script file -->
+  <script src="./index.js"></script>
+
+</head>
+
+<body>
+  <form>
+    <input type="file" accept="image/*" id="image" onchange="loadModel(this)"/>
+    <input type="submit">
+  </form>
+
+  <div>
+    <li><h5 id="prob_1"></h5></li>
+    <li><h5 id="prob_2"></h5></li>
+    <li><h5 id="prob_3"></h5></li>
+    <li><h5 id="prob_4"></h5></li>
+  </div>
+
+
+</body>
+
+</html>
