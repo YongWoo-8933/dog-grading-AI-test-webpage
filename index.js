@@ -1,3 +1,8 @@
+'use strict';
+
+let image, model, imageName, imageShow, image_pixels, resultContainer, executeButton;
+
+
 async function getData() {
   const carsDataResponse = await fetch('https://storage.googleapis.com/tfjs-tutorials/carsData.json');
   const carsData = await carsDataResponse.json();
@@ -14,6 +19,11 @@ document.addEventListener('DOMContentLoaded', run);
 
 // Load and plot the original input data that we are going to train on.
 async function run() {
+  resultContainer = document.getElementById("resultContainer");
+  imageName = document.getElementById('imageName');
+  imageShow = document.getElementById('imageShow');
+  executeButton = document.getElementById('executeButton');
+
   const data = await getData();
   const values = data.map(d => ({
     x: d.horsepower,
@@ -44,24 +54,44 @@ async function run() {
     // // Make some predictions using the model and compare them to the
     // // original data
     // testModel(model, data, tensorData);
-}
+  }
   
+  
+  async function loadModel(input) {
+    
+    model = await tf.loadGraphModel( './saved_jsmodel/model.json' );
+    
+    image = input.files[0];
+    
+    let nameNode = document.createTextNode( image.name );
+    imageName.appendChild( nameNode );
+    
+    let reader = new FileReader();
+    
+    reader.addEventListener("load", function () {
+      imageShow.src = reader.result;
+    }, false);
+    if ( image ) {
+      reader.readAsDataURL( image );
+    }
 
-async function loadModel(input) {
+  }
+  
+  async function execute() {
 
-  let image = await input.files[0];
-  const model = await tf.loadGraphModel( './saved_jsmodel/model.json' );
-  let res = await model.execute(tf.browser.fromPixels( image[0] ));  
+  image_pixels = tf.browser.fromPixels( imageShow );
+  image_pixels = tf.image.resizeBilinear(image_pixels, [300, 300]).div(tf.scalar(300));
+  image_pixels = tf.expandDims( image_pixels, 0 );
 
-  console.log( res )
+  let res = await model.execute( image_pixels );  
+  
+  let res_values = res.dataSync();
+  let res_array = Array.from(res_values);
 
-  let prob_1 = document.getElementById( 'prob_1' );
-  let prob_2 = document.getElementById( 'prob_2' );
-  let prob_3 = document.getElementById( 'prob_3' );
-  let prob_4 = document.getElementById( 'prob_4' );
-
-  // prob_1.innerText = res;
-
+  res_array.forEach( ( item, index ) => {
+    let res_Node = document.createTextNode( String(item) + ' // ' + String(index) + ' \n ' );
+    resultContainer.appendChild( res_Node );
+  } )
 }
 
 

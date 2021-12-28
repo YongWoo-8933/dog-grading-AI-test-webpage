@@ -2,9 +2,6 @@
 <html>
 <head>
   <title>TensorFlow.js Tutorial</title>
-
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   
   <!-- Import TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.12.0/dist/tf.min.js"></script>
@@ -23,14 +20,26 @@
 <body>
   <form>
     <input type="file" accept="image/*" id="image" onchange="loadModel(this)"/>
-    <input type="submit">
+    <input type="submit" onchange="execute()">
   </form>
 
   <div>
-    <li><h5 id="prob_1"></h5></li>
-    <li><h5 id="prob_2"></h5></li>
-    <li><h5 id="prob_3"></h5></li>
-    <li><h5 id="prob_4"></h5></li>
+    <div class="imageContainer">
+      <div id="imageName"></div>
+      <img id="imageShow" width="300px" height="300px" src="" alt="로드중..">
+    </div>
+
+    <div class="button">
+      <form>
+        <input type="button" id="executeButton" onclick="execute()">
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <div class="resultContainer" id="resultContainer">
+
+    </div>
   </div>
 
 
